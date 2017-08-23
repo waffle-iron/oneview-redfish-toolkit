@@ -14,31 +14,24 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from flask import Blueprint
 from flask import jsonify
 from flask import make_response
 from flask_api import status
-
-redfish_base = Blueprint("redfish_base", __name__, url_prefix="/redfish")
-
-
-@redfish_base.route("/", methods=["GET"])
-def get_redfish_base():
-    """Get JSON with Redfish version.
-
-    :return: Redfish version route.
-    :rtype: JSON
-    """
-    return make_response(jsonify({"v1": "/redfish/v1/"}), status.HTTP_200_OK)
+from flask_restful import Resource
 
 
-@redfish_base.errorhandler(status.HTTP_404_NOT_FOUND)
-def not_found(error):
-    """Improve not found error message.
+class RedfishBaseAPI(Resource):
+    def __init__(self, schema_dict):
+        self.schema_dict = schema_dict
 
-    :param error: Flask error.
-    :return: Error message.
-    :rtype: JSON
-    """
-    return make_response(jsonify({"error": "Redfish base not found."}),
-                         status.HTTP_404_NOT_FOUND)
+    def get(self):
+        """Get Redfish base.
+
+            Return a validated Redfish base JSON.
+
+            Returns:
+                JSON: print the JSON Redfish base.
+        """
+
+        return make_response(jsonify({"v1": "/redfish/v1/"}),
+                             status.HTTP_200_OK)
