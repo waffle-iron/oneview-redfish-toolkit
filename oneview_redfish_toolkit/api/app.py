@@ -15,8 +15,16 @@
 # under the License.
 
 from flask import Flask
+from flask_restful import Api
 
-from oneview_redfish_toolkit.api.redfish_base_api import redfish_base
+from oneview_redfish_toolkit.api.redfish_base_api import RedfishBaseAPI
+from oneview_redfish_toolkit.api.redfish_service_root_api \
+    import RedfishServiceRootAPI
 
 app = Flask(__name__)
-app.register_blueprint(redfish_base)
+
+api = Api(app)
+api.add_resource(RedfishBaseAPI, "/redfish/",
+                 resource_class_kwargs={"schema_dict": {}})
+api.add_resource(RedfishServiceRootAPI, "/redfish/v1/",
+                 resource_class_kwargs={"schema_dict": {}})
