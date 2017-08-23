@@ -4,5 +4,6 @@
 
 flask
 flask-api
+flask-restful
 hpOneView
 pbr>=2.0 # Apache-2.0
